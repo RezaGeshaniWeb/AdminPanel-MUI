@@ -4,7 +4,7 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 
 import Checkbox from '@mui/material/Checkbox'
-import { Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 import { AppProvider } from '@toolpad/core/AppProvider'
 import { SignInPage } from '@toolpad/core/SignInPage'
@@ -19,10 +19,25 @@ export default function SlotPropsSignIn() {
     const [openSnackbar, setOpenSnackbar] = React.useState(false)
     const [successSnackbarOpen, setSuccessSnackbarOpen] = React.useState(false)
     const [errorMessage, setErrorMessage] = React.useState('')
+    const [checkBox, setCheckBox] = React.useState(false)
+    const [emailValue, setEmailValue] = React.useState('')
+    const [passwordValue, setPasswordValue] = React.useState('')
+
 
     const router = useRouter()
 
     React.useEffect(() => setIsClient(true), [])
+
+    React.useEffect(() => {
+        if (checkBox) {
+            setEmailValue('rezageshaniweb@gmail.com')
+            setPasswordValue('1234')
+        } else {
+            setEmailValue('')
+            setPasswordValue('')
+        }
+    }, [checkBox])
+
 
     if (!isClient) return null
 
@@ -42,35 +57,58 @@ export default function SlotPropsSignIn() {
         }
     }
 
+    const handleCheckBox = () => setCheckBox(prev => !prev)
+
     return (
         <AppProvider>
             <SignInPage
                 signIn={handleSignIn}
                 slotProps={{
-                    emailField: { variant: 'standard', autoFocus: true },
-                    passwordField: { variant: 'standard' },
+                    emailField: {
+                        variant: 'standard',
+                        autoFocus: true,
+                        value: emailValue, 
+                        onChange: (e) => setEmailValue(e.target.value)
+                    },
+                    passwordField: {
+                        variant: 'standard',
+                        value: passwordValue, 
+                        onChange: (e) => setPasswordValue(e.target.value)
+                    },
                     submitButton: { variant: 'outlined' },
                     rememberMe: {
                         control: (
                             <Checkbox
+                                onChange={handleCheckBox}
                                 name="tandc"
                                 value="true"
                                 color="primary"
-                                sx={{ padding: 0.5, '& .MuiSvgIcon-root': { fontSize: 20 } }}
+                                sx={{ padding: 0.5, '& .MuiSvgIcon-root': { fontSize: 24 } }}
                             />
                         ),
                         color: 'textSecondary',
-                        label: 'I agree with the T&C',
+                        label: 'Are you Admin ? click here',
                     },
                 }}
                 providers={providers}
             />
-            <Typography variant='h6' sx={{ position: 'absolute', top: 15, left: 20 }}>
-                Email: rezageshaniweb@gmail.com
-            </Typography>
-            <Typography variant='h6' sx={{ position: 'absolute', top: 65, left: 20 }}>
-                Password: 1234
-            </Typography>
+
+            <Box component="section" sx={{
+                p: 2, border: '1px dashed #ccc', borderRadius: '5px', position: 'absolute', top: 20, left: 20, animation: 'fadeIn 2s',
+                '@keyframes fadeIn': {
+                    '0%': { transform: 'scale(0)' },
+                    '40%': { transform: 'scale(.8)' },
+                    '80%': { transform: 'scale(.6)' },
+                    '100%': { transform: 'scale(1)' },
+                },
+            }}>
+                <Typography variant='h6' sx={{ marginBottom: '12px' }}>
+                    Email: rezageshaniweb@gmail.com
+                </Typography>
+                <Typography variant='h6'>
+                    Password: 1234
+                </Typography>
+            </Box>
 
             <SnackbarError openSnackbar={openSnackbar} setOpenSnackbar={setOpenSnackbar} errorMessage={errorMessage} />
 
