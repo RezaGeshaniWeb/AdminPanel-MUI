@@ -6,9 +6,7 @@
 
 - Created - 2025-04-19
 
-- Technologies Used - React , Next.Js , MUI
-
-- Dependencies - x-charts , leaflet
+- Technologies Used - React , Next.Js , MUI , x-charts , leaflet
 
 - Role - Frontend
 
@@ -16,6 +14,5 @@
 
 
 ![Alt text](https://github.com/user-attachments/assets/cd0d1b3a-d900-45d9-a57f-102e8330a01d)
-
 
 ![Alt text](https://github.com/user-attachments/assets/93285231-25f9-4109-b3b5-5523fbf9728b)
